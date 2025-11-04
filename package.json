@@ -1,6 +1,6 @@
 {
   "name": "cf-oauth",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "types": "./lib/types/index.d.ts",
   "main": "./lib/index.js",
   "dependencies": {

@@ -51,6 +51,10 @@ export async function oauth2Start(
     state,
   })
 
+  if (cfg.response_mode) {
+    params.set('response_mode', cfg.response_mode)
+  }
+
   // 5) Redirect to provider
   return Response.redirect(`${cfg.auth_url}?${params.toString()}`, 302)
 }

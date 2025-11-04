@@ -3,6 +3,7 @@ export type OAuth2ProviderConfig = {
   client_id: string
   client_secret: string
   auth_url: string
+  response_mode?: string
   token_url: string
   userinfo_url: string
   scope: string
