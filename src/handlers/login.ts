@@ -1,4 +1,4 @@
-import { crypto, CryptoKey, fetch, JsonWebKey, KVNamespace } from '@cloudflare/workers-types'
+import { JsonWebKey, KVNamespace } from '@cloudflare/workers-types'
 import { OAuth2ProviderConfig, ProviderRegistry } from '../types/provider'
 import { SessionRecord } from '../types/session'
 import { randomBytesBase64Url } from '../utils/pkce'
@@ -57,7 +57,7 @@ async function fetchDiscovery(discovery: string) {
 
 // JwksResponse로 맞춤 + Cloudflare 캐시 힌트
 async function fetchJWKS(jwksUri: string): Promise<JwksResponse> {
-  const r = await fetch(jwksUri, { headers: { accept: 'application/json' }, cf: { cacheTtl: 300 } as any })
+  const r = await (fetch as any)(jwksUri, { headers: { accept: 'application/json' }, cf: { cacheTtl: 300 } })
   if (!r.ok) throw new Error('jwks_failed')
   return r.json() as Promise<JwksResponse>
 }
@@ -110,10 +110,10 @@ async function verifySignature(
   const jwk = pickJwkForHeader(jwks, header)
   const key = await importVerifyKey(jwk, header.alg)
   if (header.alg === 'RS256') {
-    return crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, signature, signingInput)
+    return crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, signature as any, signingInput as any)
   }
   if (header.alg === 'ES256') {
-    return crypto.subtle.verify({ name: 'ECDSA', hash: 'SHA-256' }, key, signature, signingInput)
+    return crypto.subtle.verify({ name: 'ECDSA', hash: 'SHA-256' }, key, signature as any, signingInput as any)
   }
   throw new Error(`unsupported_alg:${header.alg}`)
 }
