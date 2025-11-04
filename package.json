@@ -1,0 +1,16 @@
+{
+  "name": "cf-oauth",
+  "version": "0.0.1",
+  "types": "./lib/types/index.d.ts",
+  "main": "./lib/index.js",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20251014.0",
+    "@types/jest": "^30.0.0",
+    "jest": "^30.0.4",
+    "jest-environment-jsdom": "^30.0.4",
+    "ts-jest": "^29.4.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "packageManager": "yarn@1.22.22"
+}

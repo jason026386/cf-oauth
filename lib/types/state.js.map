@@ -1,0 +1,1 @@
+{"version":3,"file":"state.js","sourceRoot":"","sources":["../../src/types/state.ts"],"names":[],"mappings":"","sourcesContent":["export type StatePayload = {\n  s: string       // csrf\n  t: string       // txn id\n  p: string       // provider name\n  ts: number      // timestamp\n}\n"]}

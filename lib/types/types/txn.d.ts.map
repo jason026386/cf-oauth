@@ -1,0 +1,1 @@
+{"version":3,"file":"txn.d.ts","sourceRoot":"","sources":["../../../src/types/txn.ts"],"names":[],"mappings":"AAAA,MAAM,MAAM,SAAS,GAAG;IACtB,QAAQ,EAAE,MAAM,CAAA;IAChB,aAAa,EAAE,MAAM,CAAA;IACrB,IAAI,EAAE,MAAM,CAAA;IACZ,UAAU,EAAE,MAAM,CAAA;IAClB,SAAS,EAAE,MAAM,GAAG,IAAI,CAAA;CACzB,CAAA"}

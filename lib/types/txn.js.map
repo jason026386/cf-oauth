@@ -1,0 +1,1 @@
+{"version":3,"file":"txn.js","sourceRoot":"","sources":["../../src/types/txn.ts"],"names":[],"mappings":"","sourcesContent":["export type TxnRecord = {\n  provider: string\n  code_verifier: string\n  csrf: string\n  created_at: number\n  return_to: string | null\n}\n"]}
