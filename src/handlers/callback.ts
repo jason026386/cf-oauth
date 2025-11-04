@@ -14,9 +14,27 @@ export async function oauth2Callback(
   redirectUri: string,
   returnTo: string,
 ): Promise<Response> {
-  const url = new URL(request.url)
-  const code = url.searchParams.get('code')
-  const stateRaw = url.searchParams.get('state')
+
+  // 1) form_post 방식 우선
+  let code: string | null = null
+  let stateRaw: string | null = null
+
+  if (request.method === 'POST') {
+    const ct = request.headers.get('content-type') || ''
+    if (ct.includes('application/x-www-form-urlencoded')) {
+      const body = await request.text()
+      const params = new URLSearchParams(body)
+      code = params.get('code')
+      stateRaw = params.get('state')
+    }
+  }
+
+  // 2) fallback: query string 처리
+  if (!code || !stateRaw) {
+    const url = new URL(request.url)
+    code = url.searchParams.get('code')
+    stateRaw = url.searchParams.get('state')
+  }
 
   if (!code || !stateRaw) {
     return jsonWithCors({ error: 'Missing code or state' }, 400)
