@@ -6,4 +6,11 @@ export declare function makePkcePair(): Promise<{
     method: "S256";
 }>;
 export declare function fromBase64UrlToJSON<T = unknown>(s: string): T;
+export declare function makeAppleClientSecret({ teamId, keyId, clientId, privateKeyPem, expSec }: {
+    teamId: string;
+    keyId: string;
+    clientId: string;
+    privateKeyPem: string;
+    expSec?: number;
+}): Promise<string>;
 //# sourceMappingURL=pkce.d.ts.map
