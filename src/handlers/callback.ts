@@ -80,7 +80,7 @@ export async function oauth2Callback(
     method: 'POST',
     headers: {
       'content-type': 'application/x-www-form-urlencoded',
-      'accept': 'application/json', // 일부 공급자(GitHub)는 이 헤더가 없으면 urlencoded로 반환
+      'accept': 'application/json',
     },
     body: tokenParams,
   })
@@ -92,9 +92,34 @@ export async function oauth2Callback(
 
   const token = await tokenResp.json() as Record<string, unknown>
 
-  // 5) (선택) userinfo 조회
+  // 5) userinfo 조회 (기본값)
   let user: unknown = null
-  if (cfg.userinfo_url && token?.access_token) {
+
+  // ★ 추가 부분: 애플이면 id_token에서 이메일/서브 꺼내기
+  if (effectiveProvider === 'apple') {
+    const idToken = token?.id_token as string | undefined
+    if (idToken) {
+      // JWT: header.payload.signature
+      const parts = idToken.split('.')
+      if (parts.length >= 2) {
+        try {
+          const payloadJson = fromBase64UrlToJSON<any>(parts[1])
+          // Apple이 첫 로그인 때만 email을 넣어줌
+          user = {
+            sub: payloadJson.sub,
+            email: payloadJson.email,
+            email_verified: payloadJson.email_verified,
+            is_private_email: payloadJson.is_private_email,
+          }
+        } catch {
+          // payload 파싱 실패 시 그냥 넘어감
+        }
+      }
+    }
+  }
+
+  // ★ 일반 OIDC/OAuth provider면 userinfo_url 있으면 그대로 호출
+  if (!user && cfg.userinfo_url && token?.access_token) {
     const ui = await fetch(cfg.userinfo_url, {
       headers: { Authorization: `Bearer ${token.access_token}`, 'accept': 'application/json' },
     })
@@ -108,7 +133,7 @@ export async function oauth2Callback(
   const sessionRecord = {
     provider: effectiveProvider,
     created_at: Date.now(),
-    token, // access_token / refresh_token? / expires_in / id_token? 등
+    token,
     user,
   }
   const ttlSeconds = 7 * 24 * 60 * 60 // 7 days
@@ -119,7 +144,7 @@ export async function oauth2Callback(
   // 7) 일회성 TXN 정리
   await env.TXNS.delete(txnKey)
 
-  // 8) 응답: HTML (브라우저) 또는 JSON (API 클라이언트)
+  // 8) 응답
   const accept = request.headers.get('accept') || ''
   if (!accept.includes('application/json')) {
     const html = `<!doctype html>
