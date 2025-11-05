@@ -22,7 +22,7 @@ async function authnFromHeader(request: Request, env: { SESSIONS: KVNamespace })
  */
 export async function oauth2Me(
   request: Request,
-  env: { SESSIONS: KVNamespace },
+  env: { SESSIONS: KVNamespace<string> },
   providers: ProviderRegistry
 ): Promise<Response> {
   const authn = await authnFromHeader(request, env)

@@ -10,7 +10,7 @@ import { jsonWithCors } from '../utils/response'
 // Persists TXN (code_verifier, csrf, return_to...) in KV for 10 minutes.
 export async function oauth2Start(
   request: Request,
-  env: { TXNS: KVNamespace },
+  env: { TXNS: KVNamespace<string> },
   providerName: string,
   providers: ProviderRegistry,
   redirectUri: string

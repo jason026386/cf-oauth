@@ -8,7 +8,7 @@ import { jsonWithCors } from '../utils/response'
 // —— The Function ——
 export async function oauth2Callback(
   request: Request,
-  env: { TXNS: KVNamespace, SESSIONS: KVNamespace },
+  env: { TXNS: KVNamespace<string>, SESSIONS: KVNamespace<string> },
   providerName: string,
   providers: ProviderRegistry,
   redirectUri: string,

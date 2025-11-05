@@ -6,6 +6,6 @@ import { ProviderRegistry } from '../types/provider';
  * - 세션 삭제, (선택) 공급자 토큰 무효화 시도
  */
 export declare function oauth2Logout(request: Request, env: {
-    SESSIONS: KVNamespace;
+    SESSIONS: KVNamespace<string>;
 }, providers: ProviderRegistry): Promise<Response>;
 //# sourceMappingURL=logout.d.ts.map

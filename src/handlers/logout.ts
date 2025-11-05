@@ -42,7 +42,7 @@ async function tryRevokeToken(
  */
 export async function oauth2Logout(
   request: Request,
-  env: { SESSIONS: KVNamespace },
+  env: { SESSIONS: KVNamespace<string> },
   providers: ProviderRegistry
 ): Promise<Response> {
   const url = new URL(request.url)

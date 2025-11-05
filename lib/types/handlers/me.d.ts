@@ -7,6 +7,6 @@ import { ProviderRegistry } from '../types/provider';
  * - ?rotate=1 → 새 세션ID 발급(헤더 x-session-rotate)
  */
 export declare function oauth2Me(request: Request, env: {
-    SESSIONS: KVNamespace;
+    SESSIONS: KVNamespace<string>;
 }, providers: ProviderRegistry): Promise<Response>;
 //# sourceMappingURL=me.d.ts.map
