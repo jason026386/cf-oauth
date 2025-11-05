@@ -144,7 +144,7 @@ function assertClaims(payload: IDTokenPayload, cfg: OAuth2ProviderConfig, nonce?
   }
 }
 
-export async function oauth2Login(
+export async function oauth2Verify(
   request: Request,
   env: { SESSIONS: KVNamespace<string> },
   providers: ProviderRegistry,
